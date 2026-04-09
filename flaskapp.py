@@ -48,6 +48,25 @@ def display_html(rows):
 
 # ---------------------------------------------------------------------------
 # Routes
+@app.route("/viewdb")
+def viewdb():
+    """
+    Fetches the first 20 tracks from the Chinook database
+    and returns them as an HTML table.
+    Route: /viewdb
+    """
+    rows = execute_query("""
+        SELECT ArtistId, Artist.Name, Track.Name, UnitPrice
+        FROM Artist
+        JOIN Album USING (ArtistID)
+        JOIN Track USING (AlbumID)
+        LIMIT 20
+    """)
+    return display_html(rows)
+
+
+
+
 # ---------------------------------------------------------------------------
 
 @app.route("/")
