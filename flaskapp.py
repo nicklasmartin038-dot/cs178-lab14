@@ -64,7 +64,19 @@ def viewdb():
     """)
     return display_html(rows)
 
-
+@app.route("/artistquery/<artist_id>")
+def artistquery(artist_id):
+    rows = execute_query("""
+        SELECT ArtistId, Artist.Name, Track.Name, UnitPrice, Milliseconds
+        FROM Artist
+        JOIN Album USING (ArtistID)
+        JOIN Track USING (AlbumID)
+        WHERE ArtistId = %s
+        ORDER BY Track.Name
+        LIMIT 500
+    """, (artist_id,))
+    return display_html(rows)
+# chatgot helped me with some of this code
 
 
 # ---------------------------------------------------------------------------
